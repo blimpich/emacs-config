@@ -1,0 +1,13 @@
+#a new component : Doctype HTML 4.01 Strict
+# --
+import React from 'react';
+
+function $1(){
+  return(
+    <div>
+      <h1>$1</h1>
+    </div>
+  );
+}
+
+export default $1;

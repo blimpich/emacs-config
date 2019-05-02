@@ -1,0 +1,30 @@
+#a new component : Doctype HTML 4.01 Strict
+# --
+/**
+ *  A component
+ */
+
+import React from 'react';
+
+const styles = {
+      container: {
+      },
+};
+
+class $1 extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+        }
+    }
+
+    render() {
+        return(
+            <div style={styles.container}>
+                $0
+            </div>
+        );
+    }
+}
+
+export default $1;

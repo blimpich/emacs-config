@@ -1,0 +1,3 @@
+#print() : Doctype HTML 4.01 Strict
+# --
+print($0)

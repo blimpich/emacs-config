@@ -1,0 +1,3 @@
+#console.log() : Doctype HTML 4.01 Strict
+# --
+console.log($0);

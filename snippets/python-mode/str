@@ -1,0 +1,3 @@
+#str() : Doctype HTML 4.01 Strict
+# --
+str($0)

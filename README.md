@@ -1,0 +1,1 @@
+This is my emacs config. It's kind of a mess, and I quite realize it. It works for me though!
