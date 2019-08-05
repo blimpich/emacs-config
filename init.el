@@ -237,6 +237,11 @@
 ;; make company case-sensitive
 (setq company-dabbrev-downcase nil)
 
+;; add hook for csv mode
+(add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
+(autoload 'csv-mode "csv-mode"
+  "Major mode for editing comma-separated value files." t)
+
 ;; get projectile up and running
 (projectile-global-mode)
 (setq projectile-project-search-path '("~/code/"))
@@ -246,7 +251,41 @@
 ;; add personal key bindings since some of the defaults don't appear to work
 (global-set-key (kbd "M-<right>") 'dumb-jump-go)
 (global-set-key (kbd "M-<left>") 'dumb-jump-back)
+;; also make dumb jump only look in my code directory please
+(setq dumb-jump-default-project "~/code")
 ;; source: https://github.com/jacktasia/dumb-jump
+
+;; ido mode stuff
+(progn
+  ;; make buffer switch command do suggestions, also for find-file command
+  (require 'ido)
+  (ido-mode 1)
+
+  ;; show choices vertically
+  (if (version< emacs-version "25")
+      (progn
+        (make-local-variable 'ido-separator)
+        (setq ido-separator "\n"))
+    (progn
+      (make-local-variable 'ido-decorations)
+      (setf (nth 2 ido-decorations) "\n")))
+
+  ;; show any name that has the chars you typed
+  (setq ido-enable-flex-matching t)
+  ;; use current pane for newly opened file
+  (setq ido-default-file-method 'selected-window)
+  ;; use current pane for newly switched buffer
+  (setq ido-default-buffer-method 'selected-window)
+  ;; stop ido from suggesting when naming new file
+  (define-key (cdr ido-minor-mode-map-entry) [remap write-file] nil))
+
+;; big minibuffer height, for ido to show choices vertically
+(setq max-mini-window-height 0.5)
+
+(require 'ido)
+;; stop ido suggestion when doing a save-as
+(define-key (cdr ido-minor-mode-map-entry) [remap write-file] nil)
+
 
 ;; move lines up and down easily
 ;; http://emacsredux.com/blog/2013/04/02/move-current-line-up-or-down/
@@ -305,6 +344,8 @@
    (quote
     ("a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "44eec3c3e6e673c0d41b523a67b64c43b6e38f8879a7969f306604dcf908832c" default)))
  '(dumb-jump-mode t)
+ '(fci-rule-character-color "#452E2E")
+ '(fci-rule-color "#eee8d5")
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
    (--map
@@ -338,7 +379,7 @@
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (prettier-js solarized-theme rjsx-mode cheatsheet free-keys dumb-jump theme-changer birds-of-paradise-plus-theme elpy add-node-modules-path exec-path-from-shell js2-mode json-mode dashboard page-break-lines company rainbow-mode projectile web-mode yasnippet multi-term markdown-mode magit flycheck)))
+    (csv-mode prettier-js solarized-theme rjsx-mode cheatsheet free-keys dumb-jump theme-changer birds-of-paradise-plus-theme elpy add-node-modules-path exec-path-from-shell js2-mode json-mode dashboard page-break-lines company rainbow-mode projectile web-mode yasnippet multi-term markdown-mode magit flycheck)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
@@ -372,7 +413,7 @@
  '(web-mode-css-indent-offset 2)
  '(web-mode-enable-auto-expanding t)
  '(web-mode-enable-auto-quoting nil)
- '(web-mode-enable-current-element-highlight t)
+ '(web-mode-enable-current-element-highlight nil)
  '(web-mode-markup-indent-offset 2)
  '(weechat-color-list
    (quote
